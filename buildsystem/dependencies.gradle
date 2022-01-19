@@ -1,0 +1,96 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+ext {
+
+    junit = '4.13.1'
+    junitTest = '1.1.2'
+    mockito = '3.2.4'
+    databinding_version = "3.1.4"
+    lifecycle_version = "2.4.0"
+    lifecycle_ext_version = "1.1.1"
+    coroutine = '1.3.6'
+    constraintLayout = '2.0.4'
+    androidCore = '1.3.2'
+    appCompact = '1.1.0'
+    esspresso = '3.3.0'
+    material = '1.2.1'
+    navigationFragment = '2.2.2'
+    androidxPreferenceVersion = '1.1.0'
+
+    // Dependency injection
+    daggerHilt = '2.40.5'
+    daggerHiltAndroidComipler = '2.40.5'
+    daggerHiltViewModel = '1.0.0-alpha02'
+    daggerHiltCompiler = '1.0.0-alpha02'
+    rxPermission = '0.10.2'
+
+    // Networking
+    retrofitConverter = '2.3.0'
+    retrofit = '2.9.0'
+    okhttp = '4.7.2'
+    okhttpInterceptor = '4.7.2'
+
+    rxandroidversion = '2.1.1'
+    gson = '2.8.9'
+    // Timber
+    timber = '4.7.1'
+    // Coil
+    coil = '1.1.0'
+    mockwebserver = '4.0.1'
+    mockinizer = '1.6.0'
+    retroMock = "1.1.1"
+
+    commonDependencies = [
+
+            androidxAppCompat : "androidx.appcompat:appcompat:${appCompact}",
+            androidxCore      : "androidx.core:core-ktx:${androidCore}",
+            kotlin            : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            constraintLayout  : "androidx.constraintlayout:constraintlayout:${constraintLayout}",
+
+            androidArchExt    : "android.arch.lifecycle:extensions:${lifecycle_ext_version}",
+            androidArchCommon : "android.arch.lifecycle:common-java8:${lifecycle_version}",
+
+            coroutinesCore    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutine}",
+            coroutinesAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutine}",
+            material          : "com.google.android.material:material:${material}",
+            navigationFragment: "androidx.navigation:navigation-fragment-ktx:${navigationFragment}",
+            navigation        : "androidx.navigation:navigation-ui-ktx:${navigationFragment}",
+    ]
+
+    commonTestDependencies = [
+            junit                : "junit:junit:${junit}",
+            mockito              : "org.mockito:mockito-core:${mockito}",
+            androidAchCoreTesting: "androidx.arch.core:core-testing:${lifecycle_version}",
+            coroutinesTest       : "org.jetbrains.kotlinx:kotlinx-coroutines-test:${coroutine}",
+            junitTest            : "androidx.test.ext:junit:${junitTest}",
+            esspressoCore        : "androidx.test.espresso:espresso-core:${esspresso}"
+    ]
+
+    developmentDependencies = [
+            // Dependency injection
+            daggerHilt               : "com.google.dagger:hilt-android:${daggerHilt}",
+            daggerHiltAndroidComipler: "com.google.dagger:hilt-android-compiler:${daggerHilt}",
+
+            retrofitConverter        : "com.squareup.retrofit2:converter-gson:${retrofitConverter}",
+            retrofitMoshiConverter        : "com.squareup.retrofit2:converter-moshi:${retrofitConverter}",
+            retrofit                 : "com.squareup.retrofit2:retrofit:${retrofit}",
+            okhttp                   : "com.squareup.okhttp3:okhttp:${okhttp}",
+            okhttpInterceptor        : "com.squareup.okhttp3:logging-interceptor:${okhttpInterceptor}",
+            gson                     : "com.google.code.gson:gson:${gson}",
+            liveData                 : "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle_version}",
+            liveDataExtensions       : "androidx.lifecycle:lifecycle-extensions:${lifecycle_ext_version}",
+            viewModel                : "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle_version}",
+            preference               : "androidx.preference:preference:${androidxPreferenceVersion}",
+            timber                   : "com.jakewharton.timber:timber:${timber}",
+            coil                     : "io.coil-kt:coil:${coil}",
+            mockwebserver            : "com.squareup.okhttp3:mockwebserver:${mockwebserver}",
+           // mockinizer               : "com.github.donfuxx:Mockinizer:${mockinizer}",
+            retroMock                : "co.infinum:retromock:${retroMock}"
+    ]
+}

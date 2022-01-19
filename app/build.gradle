@@ -1,0 +1,101 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+}
+
+apply from: 'version_utils.gradle'
+
+android {
+    def androidVersions = rootProject.ext.android
+
+    defaultConfig {
+        applicationId "com.mehroz.valet1_task"
+        compileSdkVersion androidVersions.compileSdkVersion
+
+        minSdkVersion androidVersions.minSdkVersion
+        targetSdkVersion androidVersions.targetSdkVersion
+        versionCode buildVersionCode()
+        versionName buildVersionName()
+        buildConfigField("String", "BASE_URL", "\"https://www.google.com/\"")
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    def commonDependencies = rootProject.ext.commonDependencies
+    def developmentDependencies = rootProject.ext.developmentDependencies
+    def commonTestDependencies = rootProject.ext.commonTestDependencies
+
+
+    implementation commonDependencies.androidxAppCompat
+    implementation commonDependencies.androidxCore
+    implementation commonDependencies.kotlin
+    implementation commonDependencies.constraintLayout
+    implementation commonDependencies.androidArchExt
+    implementation commonDependencies.coroutinesCore
+    implementation commonDependencies.coroutinesAndroid
+    implementation commonDependencies.androidxAppCompat
+    implementation commonDependencies.coroutinesAndroid
+    implementation commonDependencies.material
+    implementation commonDependencies.navigationFragment
+    implementation commonDependencies.navigation
+    implementation commonDependencies.androidArchExt
+
+    // Dependency injection
+    implementation developmentDependencies.daggerHilt
+    kapt developmentDependencies.daggerHiltAndroidComipler
+
+
+    // Networking
+    implementation developmentDependencies.retrofitConverter
+    implementation developmentDependencies.retrofitMoshiConverter
+    implementation developmentDependencies.retrofit
+    implementation developmentDependencies.okhttp
+    implementation developmentDependencies.okhttpInterceptor
+
+    // Timber
+    implementation developmentDependencies.timber
+
+    // Coil
+    implementation developmentDependencies.coil
+
+   // implementation developmentDependencies.rxAndroid
+
+    androidTestImplementation commonTestDependencies.junit
+    androidTestImplementation commonTestDependencies.esspressoCore
+    implementation developmentDependencies.gson
+    implementation developmentDependencies.liveData
+    implementation developmentDependencies.liveDataExtensions
+    implementation developmentDependencies.viewModel
+    implementation developmentDependencies.preference
+    implementation developmentDependencies.mockwebserver
+    implementation developmentDependencies.retroMock
+    //debugImplementation developmentDependencies.mockinizer
+}
+
+repositories {
+    mavenCentral()
+}

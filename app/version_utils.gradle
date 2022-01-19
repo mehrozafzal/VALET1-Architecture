@@ -1,0 +1,17 @@
+ext.buildVersionName = { buildVersionName(versionMajor, versionMinor, versionPatch) }
+
+ext.buildVersionCode = {
+    buildVersionCode(versionMajor, versionMinor, versionPatch, versionInternal)
+}
+
+static def buildVersionName(versionMajor, versionMinor, versionPatch) {
+    return "${versionMajor}.${versionMinor}.${versionPatch}"
+}
+
+static def buildVersionCode(versionMajor, versionMinor, versionPatch, versionInternal) {
+    // because values from properties are some how always strings
+    return (Integer.parseInt(versionMajor) * 1000
+            + Integer.parseInt(versionMinor) * 100
+            + Integer.parseInt(versionPatch) * 10
+            + Integer.parseInt(versionInternal))
+}

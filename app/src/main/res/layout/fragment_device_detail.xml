@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/fragmentDeviceDetail_banner"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dummy_device" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_name"
+            style="@style/item_device_detail_text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/name_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceDetail_banner" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_status"
+            style="@style/item_device_detail_text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/status_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceDetail_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_price"
+            style="@style/item_device_detail_text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/price_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceDetail_status" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_desc"
+            style="@style/item_device_detail_text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/description_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceDetail_price" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_nameValue"
+            style="@style/item_device_detail_text_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_name"
+            app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_name"
+            app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_name"
+            tools:text=" Samsung Galaxy" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_statusValue"
+            style="@style/item_device_detail_text_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_status"
+            app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_status"
+            app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_status"
+            tools:text=" Available" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_priceValue"
+            style="@style/item_device_detail_text_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_price"
+            app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_price"
+            app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_price"
+            tools:text=" 3000" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fragmentDeviceDetail_descValue"
+            style="@style/item_device_detail_text_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_desc"
+            app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_desc"
+            app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_desc"
+            tools:text=" This is samsung galaxy device" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
