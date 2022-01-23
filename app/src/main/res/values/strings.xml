@@ -4,11 +4,15 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_devices">My Devices</string>
     <string name="menu_search">Search</string>
+    <string name="menu_favorite">Favorite</string>
     <string name="user_name">Muhammad Mehroz Afzal</string>
     <string name="loader_label">Loading...</string>
     <string name="name_label">Name -</string>
     <string name="status_label">Status -</string>
     <string name="price_label">Price -</string>
-    <string name="description_label">Description -</string>
+    <string name="description_label">Description</string>
     <string name="search_device_hint">Search Device</string>
+    <string name="no_devices_found_message">No Devices found !</string>
+    <string name="device_removed_message">Device removed</string>
+    <string name="device_added_message">Device saved</string>
 </resources>

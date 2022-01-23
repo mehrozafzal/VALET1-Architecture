@@ -47,11 +47,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             binding.activityMainDrawerLayout.closeDrawers()
             menuItem.isChecked = true
             when (menuItem.itemId) {
-                R.id.item_home -> {
-                    navController.navigate(R.id.homeFragment)
-                    binding.activityMainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                    binding.activityMainDrawerLayout.openDrawer(GravityCompat.START)
-                }
+                R.id.item_home -> navController.navigate(R.id.homeFragment)
                 R.id.item_devices -> navController.navigate(R.id.myDevicesFragment)
                 R.id.item_settings -> navController.navigate(R.id.settingsFragment)
             }

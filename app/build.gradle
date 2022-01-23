@@ -4,36 +4,55 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs'
+
 }
 
 apply from: 'version_utils.gradle'
 
 android {
     def androidVersions = rootProject.ext.android
-
     defaultConfig {
         applicationId "com.mehroz.valet1_task"
         compileSdkVersion androidVersions.compileSdkVersion
-
         minSdkVersion androidVersions.minSdkVersion
         targetSdkVersion androidVersions.targetSdkVersion
         versionCode buildVersionCode()
         versionName buildVersionName()
         buildConfigField("String", "BASE_URL", "\"https://www.google.com/\"")
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.mehroz.valet1_task.CustomTestRunner"
+
+       /* if (project.ext.has("CustomTestRunner")) {
+            testInstrumentationRunner "com.mehroz.valet1_task.CustomTestRunner"
+        } else {
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }*/
     }
 
+    sourceSets {
+        test {
+            java.srcDirs += "$projectDir/src/testShared"
+        }
+        androidTest {
+            java.srcDirs += "$projectDir/src/testShared"
+        }
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    /*    debug{
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }*/
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -41,33 +60,51 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    packagingOptions {
+        exclude "**/attach_hotspot_windows.dll"
+        exclude "META-INF/licenses/**"
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
+    }
 }
 
+
+
 dependencies {
+
 
     def commonDependencies = rootProject.ext.commonDependencies
     def developmentDependencies = rootProject.ext.developmentDependencies
     def commonTestDependencies = rootProject.ext.commonTestDependencies
 
-
+    // Core
     implementation commonDependencies.androidxAppCompat
     implementation commonDependencies.androidxCore
     implementation commonDependencies.kotlin
     implementation commonDependencies.constraintLayout
     implementation commonDependencies.androidArchExt
+    implementation commonDependencies.material
+    implementation commonDependencies.androidArchExt
+
+    //Coroutines
     implementation commonDependencies.coroutinesCore
     implementation commonDependencies.coroutinesAndroid
     implementation commonDependencies.androidxAppCompat
     implementation commonDependencies.coroutinesAndroid
-    implementation commonDependencies.material
+
+    //Navigation
     implementation commonDependencies.navigationFragment
     implementation commonDependencies.navigation
-    implementation commonDependencies.androidArchExt
+
+    // Room
+    implementation commonDependencies.roomRuntime
+    kapt commonDependencies.roomAp
+    implementation commonDependencies.roomktx
 
     // Dependency injection
-    implementation developmentDependencies.daggerHilt
-    kapt developmentDependencies.daggerHiltAndroidComipler
-
+/*    implementation developmentDependencies.daggerHilt
+    kapt developmentDependencies.daggerHiltAndroidComipler*/
 
     // Networking
     implementation developmentDependencies.retrofitConverter
@@ -82,10 +119,11 @@ dependencies {
     // Coil
     implementation developmentDependencies.coil
 
-   // implementation developmentDependencies.rxAndroid
+    //androidTestImplementation commonTestDependencies.junit
+    //androidTestImplementation commonTestDependencies.esspressoCore
+/*    androidTestImplementation commonTestDependencies.daggerTest
+    kaptAndroidTest commonTestDependencies.kaptdaggerTest*/
 
-    androidTestImplementation commonTestDependencies.junit
-    androidTestImplementation commonTestDependencies.esspressoCore
     implementation developmentDependencies.gson
     implementation developmentDependencies.liveData
     implementation developmentDependencies.liveDataExtensions
@@ -93,7 +131,66 @@ dependencies {
     implementation developmentDependencies.preference
     implementation developmentDependencies.mockwebserver
     implementation developmentDependencies.retroMock
-    //debugImplementation developmentDependencies.mockinizer
+
+    //Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:2.40.5"
+    kapt "com.google.dagger:hilt-android-compiler:2.40.5"
+
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "io.mockk:mockk:$mockk"
+    testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
+
+    androidTestImplementation "junit:junit:$junitVersion"
+
+    // AndroidX Test - JVM testing
+    // Sample usage: "InstrumentationRegistry"
+    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+
+    // Sample usage: "AndroidJUnit4"
+    testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+    // Sample usage: AndroidJUnitRunner
+    testImplementation "androidx.test:rules:$androidXTestRulesVersion"
+    // Assertion helper
+    testImplementation "com.google.truth:truth:$truth"
+    //Mock Web Server
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.3.1'
+    //Robolectric
+    testImplementation "org.robolectric:robolectric:$robolectric"
+    debugImplementation "androidx.fragment:fragment-testing:1.4.0"
+    testImplementation "android.arch.core:core-testing:1.1.1"
+
+
+    // AndroidX Test - Instrumented testing
+    androidTestImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+    // Sample usage: "AndroidJUnit4"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+    // Sample usage: AndroidJUnitRunner
+    androidTestImplementation "androidx.test:rules:$androidXTestRulesVersion"
+    // Assertion helper
+    androidTestImplementation "com.google.truth:truth:$truth"
+    //Mockito
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+    //Robolectric
+   // androidTestImplementation "org.robolectric:robolectric:$robolectric"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
+    testImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.40.5'
+    testAnnotationProcessor 'com.google.dagger:hilt-android-compiler:2.40.5'
+   // testImplementation "org.robolectric:robolectric:4.6"
+    // For instrumented tests.
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.40.5'
+    androidTestAnnotationProcessor 'com.google.dagger:hilt-android-compiler:2.40.5'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation "android.arch.core:core-testing:1.1.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation 'org.mockito:mockito-android:3.2.4'
+    androidTestImplementation "androidx.navigation:navigation-testing:2.3.5"
 }
 
 repositories {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mehroz.valet1_task">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".VALETApplication"
         android:allowBackup="true"
@@ -22,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+     <!--   <activity
+            android:name=".com.mehroz.valet1_task.HiltTestActivity"
+            android:exported="false" />-->
     </application>
 
 </manifest>

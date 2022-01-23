@@ -1,60 +1,129 @@
 package com.mehroz.valet1_task.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import coil.load
+import com.google.android.material.snackbar.Snackbar
 import com.mehroz.valet1_task.R
+import com.mehroz.valet1_task.base.BaseFragment
+import com.mehroz.valet1_task.core.Status
+import com.mehroz.valet1_task.data.local.Device
+import com.mehroz.valet1_task.databinding.FragmentDeviceDetailBinding
+import com.mehroz.valet1_task.utils.Constants
+import com.mehroz.valet1_task.utils.Constants.PATH_KEY
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class DeviceDetailFragment : BaseFragment<FragmentDeviceDetailBinding>() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DeviceDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class DeviceDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val viewModel: MainViewModel by activityViewModels()
+    private var addFavoriteItem: MenuItem? = null
+    private var excludeFavoriteItem: MenuItem? = null
+    private var addToFavorite: Boolean = false
+    private var device: Device? = null
+    private var path: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun getLayoutRes(): Int = R.layout.fragment_device_detail
+
+    override fun initialize() {
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            path = arguments?.getString(PATH_KEY)
+        }
+        viewModel.deviceDetailObserver.observe(this, {
+            binding.apply {
+                device = it
+                deviceDetail = it
+                fragmentDeviceDetailBanner.load(it.imageUrl) {
+                    crossfade(true)
+                    error(R.drawable.placeholder_image)
+                }
+            }
+        })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.detail_menu, menu)
+        addFavoriteItem = menu.findItem(R.id.addFavorite)
+        excludeFavoriteItem = menu.findItem(R.id.excludeFavorite)
+        device?.let { viewModel.getDeviceFromDb(it.id) }
+        observeDeviceFromDb()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.addFavorite -> {
+                viewModel.removeDeviceInDb(device?.id)
+                viewModel.getAllDeviceFromDb()
+                addToFavorite = false
+                excludeFavoriteItem?.isVisible = true
+                addFavoriteItem?.isVisible = false
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.device_removed_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                true
+            }
+            R.id.excludeFavorite -> {
+                viewModel.insertDeviceInDb(device)
+                addToFavorite = true
+                excludeFavoriteItem?.isVisible = false
+                addFavoriteItem?.isVisible = true
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.device_added_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_device_detail, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DeviceDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DeviceDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun observeDeviceFromDb() {
+        lifecycleScope.launch {
+            viewModel.deviceStateFlow.collectLatest {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        if (it.data?.id == device?.id) {
+                            excludeFavoriteItem?.isVisible = false
+                            addFavoriteItem?.isVisible = true
+                        } else {
+                            excludeFavoriteItem?.isVisible = true
+                            addFavoriteItem?.isVisible = false
+                        }
+                    }
+                    Status.LOADING -> {
+                    }
+                    Status.ERROR -> {
+                        excludeFavoriteItem?.isVisible = true
+                        addFavoriteItem?.isVisible = false
+                        if (!it.message.isNullOrEmpty())
+                            Snackbar.make(
+                                binding.root,
+                                it.message,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                    }
                 }
             }
+        }
     }
 }

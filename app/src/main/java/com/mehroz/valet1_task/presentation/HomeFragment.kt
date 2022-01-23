@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mehroz.valet1_task.R
 import com.mehroz.valet1_task.base.BaseFragment
 import com.mehroz.valet1_task.core.Status
-import com.mehroz.valet1_task.data.remote.response.DevicesResponseItem
+import com.mehroz.valet1_task.data.local.Device
 import com.mehroz.valet1_task.databinding.FragmentHomeBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -19,10 +19,15 @@ import android.app.SearchManager
 import android.content.Context.SEARCH_SERVICE
 import android.view.MenuInflater
 import android.view.inputmethod.EditorInfo
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.mehroz.valet1_task.utils.Constants.PATH_HOME_FRAG
+import com.mehroz.valet1_task.utils.Constants.PATH_KEY
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
-    private var param1: String? = null
-    private var param2: String? = null
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding>(), DevicesAdapter.OnClickListener {
     private val viewModel: MainViewModel by activityViewModels()
     private var adapter: DevicesAdapter? = null
 
@@ -33,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.toolbar_menu, menu)
+        inflater.inflate(R.menu.home_menu, menu)
         val searchItem = menu.findItem(R.id.appSearchBar)
         val searchManager = requireActivity().getSystemService(SEARCH_SERVICE) as SearchManager
         val queryTextListener: SearchView.OnQueryTextListener
@@ -58,18 +63,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun getLayoutRes(): Int = R.layout.fragment_home
 
     override fun initialize() {
-        viewModel.fetchDevices()
         setupDevicesObserver()
+        viewModel.fetchDevices()
+        binding.fragmentHomeRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.fragmentHomeRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                (binding.fragmentHomeRecyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
     }
 
     private fun setupDevicesObserver() {
         lifecycleScope.launch {
-            val value = viewModel.getDevicesStateFlow()
-            value.collect {
+            viewModel.devicesStateFlow.collect {
                 when (it.status) {
                     Status.SUCCESS -> {
                         (activity as MainActivity).hideProgress()
-                        it.data?.let { devices -> renderList(devices) }
+                        it.data?.let { devices -> renderList(devices as MutableList<Device>) }
                         binding.fragmentHomeRecyclerView.visibility = View.VISIBLE
                     }
                     Status.LOADING -> {
@@ -78,26 +89,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                     Status.ERROR -> {
                         (activity as MainActivity).hideProgress()
-                        Toast.makeText(
-                            context,
-                            it.message,
-                            Toast.LENGTH_LONG
-                        ).show()
+                        it.message?.let { message ->
+                            Snackbar.make(
+                                binding.root,
+                                message,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun renderList(deviceList: MutableList<DevicesResponseItem>) {
-        adapter = DevicesAdapter(deviceList)
-        binding.fragmentHomeRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.fragmentHomeRecyclerView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                (binding.fragmentHomeRecyclerView.layoutManager as LinearLayoutManager).orientation
-            )
-        )
+    private fun renderList(deviceList: MutableList<Device>) {
+        adapter = DevicesAdapter(deviceList, this)
         binding.fragmentHomeRecyclerView.adapter = adapter
+    }
+
+    override fun onItemClickListener(deviceItem: Device) {
+        viewModel.deviceDetailObserver.value = deviceItem
+        findNavController().navigate(R.id.deviceDetailFragment)
     }
 }
