@@ -11,4 +11,5 @@
     <string name="price_label">Price -</string>
     <string name="description_label">Description -</string>
     <string name="search_device_hint">Search Device</string>
+    <string name="title_settings_display_mode">Change Display Mode</string>
 </resources>
