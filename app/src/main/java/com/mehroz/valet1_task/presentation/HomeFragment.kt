@@ -26,7 +26,6 @@ import com.mehroz.valet1_task.utils.Constants.PATH_HOME_FRAG
 import com.mehroz.valet1_task.utils.Constants.PATH_KEY
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), DevicesAdapter.OnClickListener {
     private val viewModel: MainViewModel by activityViewModels()
     private var adapter: DevicesAdapter? = null
