@@ -13,7 +13,7 @@
 -Enable/Disable dark mode</br>
 
 **Requirements**</br></br>
--clone the project using this link: [a link](https://github.com/mehrozafzal/VALET1-task.git)</br>
+-clone the project using this link: [1Valet-Task Repository](https://github.com/mehrozafzal/VALET1-task.git)</br>
 -Clean build the project and run the application on physical device or emulator
 
 
