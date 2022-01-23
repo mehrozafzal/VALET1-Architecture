@@ -2,7 +2,6 @@ package com.mehroz.valet1_task.presentation
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,12 +18,8 @@ import android.app.SearchManager
 import android.content.Context.SEARCH_SERVICE
 import android.view.MenuInflater
 import android.view.inputmethod.EditorInfo
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mehroz.valet1_task.utils.Constants.PATH_HOME_FRAG
-import com.mehroz.valet1_task.utils.Constants.PATH_KEY
-import dagger.hilt.android.AndroidEntryPoint
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), DevicesAdapter.OnClickListener {
     private val viewModel: MainViewModel by activityViewModels()

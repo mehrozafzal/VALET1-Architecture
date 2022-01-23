@@ -1,8 +1,6 @@
 package com.mehroz.valet1_task.presentation
 
-import android.view.Gravity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -47,24 +45,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             true
         }
-
-
-        /*    navController.addOnDestinationChangedListener { _, _, _ ->
-                if (binding.activityMainDrawerLayout.isDrawerOpen(GravityCompat.START))
-                    binding.activityMainDrawerLayout.closeDrawer(GravityCompat.START)
-            }*/
-   /*     navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.homeFragment, R.id.myDevicesFragment, R.id.settingsFragment -> {
-                    // binding.activityMainToolbarLayout.toolbar.visibility = View.GONE
-                    // binding.activityMainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                }
-                else -> {
-                    //    binding.activityMainToolbarLayout.toolbar.visibility = View.VISIBLE
-                    //    binding.activityMainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                }
-            }
-        }*/
     }
 
     override fun onBackPressed() {

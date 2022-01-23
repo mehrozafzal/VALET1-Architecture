@@ -65,10 +65,10 @@ class ServiceTest {
         assertThat(response).isNotNull()
 
         runBlocking {
-            // Act
             val actualResponse = apiService.getDevices()
-            // Assert
+
             assertThat(actualResponse).isNotNull()
+
             assertThat(response.toString())
                 .isEqualTo(actualResponse.toString())
         }

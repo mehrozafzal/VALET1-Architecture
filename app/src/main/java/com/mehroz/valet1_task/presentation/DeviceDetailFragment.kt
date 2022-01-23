@@ -4,10 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
@@ -17,10 +13,7 @@ import com.mehroz.valet1_task.base.BaseFragment
 import com.mehroz.valet1_task.core.Status
 import com.mehroz.valet1_task.data.local.Device
 import com.mehroz.valet1_task.databinding.FragmentDeviceDetailBinding
-import com.mehroz.valet1_task.utils.Constants
-import com.mehroz.valet1_task.utils.Constants.PATH_KEY
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,7 +25,6 @@ class DeviceDetailFragment : BaseFragment<FragmentDeviceDetailBinding>() {
     private var excludeFavoriteItem: MenuItem? = null
     private var addToFavorite: Boolean = false
     private var device: Device? = null
-    private var path: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +34,6 @@ class DeviceDetailFragment : BaseFragment<FragmentDeviceDetailBinding>() {
     override fun getLayoutRes(): Int = R.layout.fragment_device_detail
 
     override fun initialize() {
-        arguments?.let {
-            path = arguments?.getString(PATH_KEY)
-        }
         viewModel.deviceDetailObserver.observe(this, {
             binding.apply {
                 device = it

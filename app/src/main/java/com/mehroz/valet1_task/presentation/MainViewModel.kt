@@ -97,8 +97,4 @@ class MainViewModel @Inject constructor(
         }
     }
 
-/*    private fun refreshStateFlow() {
-        getAllDeviceFromDb()
-    }*/
-
 }
