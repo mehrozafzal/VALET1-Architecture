@@ -22,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onInit() {
         setSupportActionBar(binding.activityMainToolbarLayout.toolbar)
         navController = findNavController(R.id.activityMain_navHostFragment)
-        appBarConfiguration = AppBarConfiguration(navController.graph,binding.activityMainDrawerLayout)
+        appBarConfiguration = AppBarConfiguration(navController.graph, binding.activityMainDrawerLayout)
         binding.activityMainNavView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
         initListener()

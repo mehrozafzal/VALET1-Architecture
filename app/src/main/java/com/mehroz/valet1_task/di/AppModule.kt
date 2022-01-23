@@ -1,7 +1,12 @@
 package com.mehroz.valet1_task.di
 
+import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.mehroz.valet1_task.data.local.AppDatabase
+import com.mehroz.valet1_task.utils.SharedPrefs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +27,24 @@ object AppModule {
     @Provides
     fun provideDeviceDao(db: AppDatabase) = db.deviceDao()
 
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        val gsonBuilder = GsonBuilder()
+        gsonBuilder.setLenient()
+        return gsonBuilder.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreference(application: Application): SharedPreferences {
+        return application.getSharedPreferences(SharedPrefs.PREFS_NAME, Context.MODE_PRIVATE)
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideSharedPrefs(sharedPreferences: SharedPreferences, gson: Gson): SharedPrefs {
+        return SharedPrefs(sharedPreferences, gson)
+    }
 }

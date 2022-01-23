@@ -59,7 +59,6 @@ class DeviceDetailFragment : BaseFragment<FragmentDeviceDetailBinding>() {
         return when (item.itemId) {
             R.id.addFavorite -> {
                 viewModel.removeDeviceInDb(device?.id)
-                viewModel.getAllDeviceFromDb()
                 addToFavorite = false
                 excludeFavoriteItem?.isVisible = true
                 addFavoriteItem?.isVisible = false

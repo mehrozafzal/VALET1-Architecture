@@ -2,6 +2,8 @@ package com.mehroz.valet1_task.data.repository
 
 import com.mehroz.valet1_task.data.local.Device
 import com.mehroz.valet1_task.domain.DevicesRepository
+import com.mehroz.valet1_task.utils.Constants.MODE_KEY
+import com.mehroz.valet1_task.utils.SharedPrefs
 
 class FakeDeviceRepository : DevicesRepository {
 
@@ -41,7 +43,22 @@ class FakeDeviceRepository : DevicesRepository {
     }
 
     override suspend fun getAllDevice(): List<Device> {
-        return devices
+        if (!devices.isNullOrEmpty())
+            return devices
+        else
+            return listOf(
+                Device(
+                    "Available",
+                    "Sensor",
+                    "Vivo Y20s Price in Pakistan 2022 is Rs. 30,999/-",
+                    0,
+                    "PKR",
+                    "https://i0.wp.com/newmobiles.com.pk/wp-content/uploads/2021/06/Vivo-Y20s-new-mobiles-400x400.jpg",
+                    "Vivo",
+                    1,
+                    false
+                )
+            )
     }
 
 }

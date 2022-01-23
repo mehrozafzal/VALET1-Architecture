@@ -23,7 +23,8 @@ class MainViewModel @Inject constructor(
     private val _devicesStateFlow = MutableStateFlow<Resource<List<Device>>>(Resource.loading(null))
     val devicesStateFlow = _devicesStateFlow.asStateFlow()
 
-    private val _dbDevicesStateFlow = MutableStateFlow<Resource<List<Device>>>(Resource.loading(null))
+    private val _dbDevicesStateFlow =
+        MutableStateFlow<Resource<List<Device>>>(Resource.loading(null))
     val dbDevicesStateFlow = _dbDevicesStateFlow.asStateFlow()
 
     private val _deviceStateFlow = MutableStateFlow<Resource<Device>>(Resource.loading(null))
@@ -67,6 +68,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             devicesUseCase.removeDevice(deviceID)
             _removeDeviceStatus.postValue(Resource.success(null))
+            refreshStateFlow()
         }
     }
 
@@ -96,5 +98,15 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+
+    private fun refreshStateFlow() {
+        getAllDeviceFromDb()
+    }
+
+    fun setDarkMode(mode: Boolean) {
+        devicesUseCase.storeDisplayMode(mode)
+    }
+
+    fun isDarkModeOn(): Boolean = devicesUseCase.getDisplayMode()
 
 }

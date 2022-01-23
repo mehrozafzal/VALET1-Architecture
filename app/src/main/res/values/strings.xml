@@ -15,4 +15,5 @@
     <string name="no_devices_found_message">No Devices found !</string>
     <string name="device_removed_message">Device removed</string>
     <string name="device_added_message">Device saved</string>
+    <string name="title_settings_display_mode">Toggle Dark Mode</string>
 </resources>

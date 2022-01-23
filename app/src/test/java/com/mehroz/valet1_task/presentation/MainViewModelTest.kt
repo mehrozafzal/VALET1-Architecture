@@ -29,7 +29,7 @@ class MainViewModelTest {
 
     @Before
     fun setup() {
-        devicesUseCase = DevicesUseCase(FakeDeviceRepository())
+        devicesUseCase = DevicesUseCase(FakeDeviceRepository(), null)
         viewModel = MainViewModel(devicesUseCase)
     }
 
@@ -80,28 +80,7 @@ class MainViewModelTest {
         assertThat(value.status).isEqualTo(Status.SUCCESS)
     }
 
-    @Test
-    fun `get all devices return success`() {
-        val device = Device(
-            "Available",
-            "Sensor",
-            "Vivo Y20s Price in Pakistan 2022 is Rs. 30,999/-",
-            0,
-            "PKR",
-            "https://i0.wp.com/newmobiles.com.pk/wp-content/uploads/2021/06/Vivo-Y20s-new-mobiles-400x400.jpg",
-            "Vivo",
-            1,
-            false
-        )
-        viewModel.insertDeviceInDb(device)
-        viewModel.fetchDevices()
-        runBlocking {
-            val devices = viewModel.devicesStateFlow.value
-            assertThat(devices).isNotNull()
-            assertThat(device).isEqualTo(devices.data!![0])
-        }
-    }
-
+    
     @Test
     fun `get all devices return error`() {
         val device: Device? = null

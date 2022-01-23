@@ -38,8 +38,10 @@ class ServiceTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         val application = ApplicationProvider.getApplicationContext<Context>()
+
         mockWebServer = MockWebServer()
         mockWebServer.start()
+
         val gson = GsonBuilder()
             .setLenient()
             .create()
