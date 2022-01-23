@@ -1,10 +1,9 @@
 package com.mehroz.valet1_task.di
 
-import co.infinum.retromock.Behavior
+import android.app.Application
 import co.infinum.retromock.Retromock
 import com.mehroz.valet1_task.BuildConfig
 import com.mehroz.valet1_task.data.remote.ApiService
-import com.mehroz.valet1_task.utils.ResourceBodyFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +11,6 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -34,11 +32,6 @@ object NetworkModule {
     fun provideConverterFactory(): GsonConverterFactory =
         GsonConverterFactory.create()
 
-/*    @Singleton
-    @Provides
-    fun provideConverterFactory(): MoshiConverterFactory =
-        MoshiConverterFactory.create()*/
-
     @Singleton
     @Provides
     fun provideRetrofit(
@@ -47,18 +40,18 @@ object NetworkModule {
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            //.client(okHttpClient)
+            .client(okHttpClient)
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideRetroMock(retrofit: Retrofit): Retromock {
+    fun provideRetroMock(retrofit: Retrofit, context: Application): Retromock {
         return Retromock.Builder()
             .retrofit(retrofit)
-         //   .defaultBehavior { 0 }
-        //    .defaultBodyFactory(ResourceBodyFactory())
+            .defaultBehavior { 0 }
+            .defaultBodyFactory(context.assets::open)
             .build()
     }
 

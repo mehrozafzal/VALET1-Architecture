@@ -4,6 +4,7 @@ apply from: 'buildsystem/configurations.gradle'
 
 buildscript {
     ext.kotlin_version = '1.6.10'
+    ext.nav_version = "2.3.5"
 
     repositories {
         google()
@@ -12,12 +13,11 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.4"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40.5'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }
 }
-
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

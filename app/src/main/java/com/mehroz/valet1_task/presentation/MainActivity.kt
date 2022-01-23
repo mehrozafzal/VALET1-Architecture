@@ -1,8 +1,6 @@
 package com.mehroz.valet1_task.presentation
 
-import android.view.Gravity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -23,12 +21,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onInit() {
         setSupportActionBar(binding.activityMainToolbarLayout.toolbar)
-     /*   appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.item_home, R.id.item_devices, R.id.item_settings
-            ), binding.activityMainDrawerLayout
-        )*/
-
         navController = findNavController(R.id.activityMain_navHostFragment)
         appBarConfiguration = AppBarConfiguration(navController.graph,binding.activityMainDrawerLayout)
         binding.activityMainNavView.setupWithNavController(navController)
@@ -47,34 +39,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             binding.activityMainDrawerLayout.closeDrawers()
             menuItem.isChecked = true
             when (menuItem.itemId) {
-                R.id.item_home -> {
-                    navController.navigate(R.id.homeFragment)
-                    binding.activityMainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                    binding.activityMainDrawerLayout.openDrawer(GravityCompat.START)
-                }
+                R.id.item_home -> navController.navigate(R.id.homeFragment)
                 R.id.item_devices -> navController.navigate(R.id.myDevicesFragment)
                 R.id.item_settings -> navController.navigate(R.id.settingsFragment)
             }
             true
         }
-
-
-        /*    navController.addOnDestinationChangedListener { _, _, _ ->
-                if (binding.activityMainDrawerLayout.isDrawerOpen(GravityCompat.START))
-                    binding.activityMainDrawerLayout.closeDrawer(GravityCompat.START)
-            }*/
-   /*     navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.homeFragment, R.id.myDevicesFragment, R.id.settingsFragment -> {
-                    // binding.activityMainToolbarLayout.toolbar.visibility = View.GONE
-                    // binding.activityMainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                }
-                else -> {
-                    //    binding.activityMainToolbarLayout.toolbar.visibility = View.VISIBLE
-                    //    binding.activityMainDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                }
-            }
-        }*/
     }
 
     override fun onBackPressed() {

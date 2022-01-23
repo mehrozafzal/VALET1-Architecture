@@ -9,18 +9,24 @@
         android:id="@+id/homeFragment"
         android:name="com.mehroz.valet1_task.presentation.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/navigateToDetailFragment"
             app:destination="@+id/deviceDetailFragment"
             app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"/>
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/myDevicesFragment"
         android:name="com.mehroz.valet1_task.presentation.MyDevicesFragment"
         android:label="My Devices"
-        tools:layout="@layout/fragment_my_devices" />
+        tools:layout="@layout/fragment_my_devices">
+        <action
+            android:id="@+id/navigateToDetailFragment"
+            app:destination="@+id/deviceDetailFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.mehroz.valet1_task.presentation.SettingsFragment"

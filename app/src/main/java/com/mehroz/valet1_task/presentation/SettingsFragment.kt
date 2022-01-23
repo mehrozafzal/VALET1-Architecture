@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mehroz.valet1_task.R
+import com.mehroz.valet1_task.base.BaseFragment
 
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment<FragmentSe> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

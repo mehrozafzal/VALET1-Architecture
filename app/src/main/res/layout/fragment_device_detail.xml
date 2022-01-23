@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="deviceDetail"
+            type="com.mehroz.valet1_task.data.local.Device" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,8 +21,7 @@
             android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/dummy_device" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/fragmentDeviceDetail_name"
@@ -67,40 +72,50 @@
             style="@style/item_device_detail_text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{deviceDetail.title}"
             app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_name"
             app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_name"
             app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_name"
-            tools:text=" Samsung Galaxy" />
+            tools:text="Samsung Galaxy" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/fragmentDeviceDetail_statusValue"
             style="@style/item_device_detail_text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{deviceDetail.status}"
             app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_status"
             app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_status"
             app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_status"
-            tools:text=" Available" />
+            tools:text="Available" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/fragmentDeviceDetail_priceValue"
             style="@style/item_device_detail_text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{String.valueOf(deviceDetail.price)}"
             app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_price"
             app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_price"
             app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_price"
-            tools:text=" 3000" />
+            tools:text="3000" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/fragmentDeviceDetail_descValue"
             style="@style/item_device_detail_text_value"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/fragmentDeviceDetail_desc"
-            app:layout_constraintStart_toEndOf="@+id/fragmentDeviceDetail_desc"
-            app:layout_constraintTop_toTopOf="@+id/fragmentDeviceDetail_desc"
-            tools:text=" This is samsung galaxy device" />
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@{deviceDetail.description}"
+            app:layout_constraintStart_toStartOf="@+id/fragmentDeviceDetail_desc"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentDeviceDetail_desc"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="This is samsung galaxy device" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
